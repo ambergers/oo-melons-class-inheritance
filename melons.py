@@ -1,6 +1,6 @@
 """Classes for melon orders."""
 class AbstractMelonOrder():
-    """Abstract melon order class for order subclasses to inheret from."""
+    """Abstract melon order class for order type subclasses to inheret from."""
     def __init__(self, species, qty, country_code=None):
         self.species = species
         self.qty = qty
@@ -13,7 +13,7 @@ class AbstractMelonOrder():
 
         base_price = 5
         
-        if self.species.lower() == "christmas melons":
+        if self.species.lower() == "christmas melon":
             base_price *= 1.5 
 
         total = (1 + self.tax) * self.qty * base_price
@@ -25,7 +25,7 @@ class AbstractMelonOrder():
         return total
 
     def mark_shipped(self):
-        """Record the fact than an order has been shipped."""
+        """Record the fact that an order has been shipped."""
 
         self.shipped = True
 
@@ -46,3 +46,15 @@ class InternationalMelonOrder(AbstractMelonOrder):
         """Return the country code."""
 
         return self.country_code
+
+class GovernmentMelonOrder(AbstractMelonOrder):
+    """A melon order from the U.S. government."""
+    order_type = "government"
+    tax = 0.0
+    passed_inspection = None
+
+    def mark_inspection(self, passed):
+        """Record the fact that an order has passed inspection."""
+
+        self.passed_inspection = passed
+
